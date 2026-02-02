@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "OphCo1P4HJ8=",
+  "dgSpecHash": "OuaYQU3Usl8=",
   "success": true,
   "projectFilePath": "C:\\repos\\TasksTracker\\TaskTracker\\TaskTracker.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\kadaf\\.nuget\\packages\\communitytoolkit.maui\\9.1.0\\communitytoolkit.maui.9.1.0.nupkg.sha512",
+    "C:\\Users\\kadaf\\.nuget\\packages\\communitytoolkit.maui.core\\9.1.0\\communitytoolkit.maui.core.9.1.0.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\googlegson\\2.13.1.1\\googlegson.2.13.1.1.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\litedb\\5.0.17\\litedb.5.0.17.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.9\\microsoft.extensions.configuration.9.0.9.nupkg.sha512",
@@ -50,6 +52,7 @@
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.web.webview2\\1.0.3179.45\\microsoft.web.webview2.1.0.3179.45.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.756\\microsoft.windows.sdk.buildtools.10.0.22621.756.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.windowsappsdk\\1.7.250909003\\microsoft.windowsappsdk.1.7.250909003.nupkg.sha512",
+    "C:\\Users\\kadaf\\.nuget\\packages\\system.speech\\8.0.0\\system.speech.8.0.0.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\xamarin.android.glide\\4.16.0.14\\xamarin.android.glide.4.16.0.14.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\xamarin.android.glide.annotations\\4.16.0.14\\xamarin.android.glide.annotations.4.16.0.14.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\xamarin.android.glide.disklrucache\\4.16.0.14\\xamarin.android.glide.disklrucache.4.16.0.14.nupkg.sha512",

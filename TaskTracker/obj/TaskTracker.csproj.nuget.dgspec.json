@@ -67,6 +67,10 @@
         "net9.0-maccatalyst26.0": {
           "targetAlias": "net9.0-maccatalyst",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
             "LiteDB": {
               "target": "Package",
               "version": "[5.0.17, )"
@@ -405,6 +409,10 @@
         "net10.0-android36.0": {
           "targetAlias": "net10.0-android",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
             "LiteDB": {
               "target": "Package",
               "version": "[5.0.17, )"
@@ -725,6 +733,10 @@
         "net10.0-ios26.1": {
           "targetAlias": "net10.0-ios",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
             "LiteDB": {
               "target": "Package",
               "version": "[5.0.17, )"
@@ -1045,6 +1057,10 @@
         "net10.0-windows10.0.19041": {
           "targetAlias": "net10.0-windows10.0.19041.0",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
             "LiteDB": {
               "target": "Package",
               "version": "[5.0.17, )"

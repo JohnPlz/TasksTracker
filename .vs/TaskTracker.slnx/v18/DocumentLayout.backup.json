@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\repos\\TasksTracker\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|c:\\repos\\taskstracker\\tasktracker\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|solutionrelative:tasktracker\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,6 +51,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "TaskTracker\\MainPage.xaml.cs",
+              "ToolTip": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml.cs",
+              "RelativeToolTip": "TaskTracker\\MainPage.xaml.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAuwH4AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-02T20:48:20.951Z",
+              "EditorCaption": ""
             }
           ]
         }

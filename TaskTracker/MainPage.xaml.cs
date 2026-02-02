@@ -1,4 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using Android.Widget;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Media;
 using Microsoft.Extensions.DependencyInjection;
 using TaskTracker.Models;
 using TaskTracker.Services;
@@ -8,6 +12,7 @@ namespace TaskTracker;
 public partial class MainPage : ContentPage
 {
 	private readonly TaskRepository _repository;
+	private CancellationTokenSource? _recordingCts;
 
 	public ObservableCollection<TaskEntry> Tasks { get; } = new();
 
@@ -17,6 +22,26 @@ public partial class MainPage : ContentPage
 		set
 		{
 			_description = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public string RecordButtonText
+	{
+		get => _recordButtonText;
+		set
+		{
+			_recordButtonText = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public string RecordingStatus
+	{
+		get => _recordingStatus;
+		set
+		{
+			_recordingStatus = value;
 			OnPropertyChanged();
 		}
 	}
@@ -62,6 +87,8 @@ public partial class MainPage : ContentPage
 	}
 
 	private string _description = string.Empty;
+	private string _recordButtonText = "Record description";
+	private string _recordingStatus = string.Empty;
 	private DateTime _startDate = DateTime.Today;
 	private TimeSpan _startTime = DateTime.Now.TimeOfDay;
 	private DateTime _endDate = DateTime.Today;
@@ -89,6 +116,57 @@ public partial class MainPage : ContentPage
 		foreach (var item in _repository.GetAll())
 		{
 			Tasks.Add(item);
+		}
+	}
+
+	private async void OnRecordDescriptionClicked(object? sender, EventArgs e)
+	{
+		if (_recordingCts is not null)
+		{
+			_recordingCts.Cancel();
+			return;
+		}
+
+		var isGranted = await SpeechToText.Default.RequestPermissions();
+
+		if (!isGranted)
+		{
+			await Toast.Make("Permission required").Show(CancellationToken.None);
+			return;
+		}
+
+		_recordingCts = new CancellationTokenSource();
+		RecordButtonText = "Stop recording";
+		RecordingStatus = "Listening...";
+
+		try
+		{
+			var result = await SpeechToText.Default.ListenAsync(CultureInfo.CurrentCulture,
+				new Progress<string>(r =>
+				{
+					RecordingStatus = r;
+				}), _recordingCts.Token);
+			if (result.Exception is not null)
+			{
+				await DisplayAlert("Recording error", result.Exception.Message, "OK");
+				return;
+			}
+
+			if (!string.IsNullOrWhiteSpace(result.Text))
+			{
+				Description = result.Text.Trim();
+			}
+		}
+		catch (OperationCanceledException)
+		{
+			// Recording stopped by user.
+		}
+		finally
+		{
+			_recordingCts?.Dispose();
+			_recordingCts = null;
+			RecordButtonText = "Record description";
+			RecordingStatus = string.Empty;
 		}
 	}
 

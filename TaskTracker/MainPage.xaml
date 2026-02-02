@@ -14,6 +14,14 @@
                 Placeholder="Task description"
                 Text="{Binding Description}" />
 
+            <Button
+                Text="{Binding RecordButtonText}"
+                Clicked="OnRecordDescriptionClicked" />
+
+            <Label
+                Text="{Binding RecordingStatus}"
+                TextColor="{StaticResource Gray500}" />
+
             <Label Text="Start" FontFamily="OpenSansSemibold" />
             <HorizontalStackLayout Spacing="12">
                 <DatePicker Date="{Binding StartDate}" />

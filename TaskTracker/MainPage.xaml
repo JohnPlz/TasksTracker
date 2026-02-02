@@ -44,12 +44,20 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="12" Margin="0,6">
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding Description}" FontFamily="OpenSansSemibold" />
-                                <Label Text="{Binding StartTime, StringFormat='Start: {0:g}'}" />
-                                <Label Text="{Binding EndTime, StringFormat='End: {0:g}'}" />
-                                <Label Text="{Binding DurationText, StringFormat='Duration: {0}'}" />
-                            </VerticalStackLayout>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding Description}" FontFamily="OpenSansSemibold" />
+                                    <Label Text="{Binding StartTime, StringFormat='Start: {0:g}'}" />
+                                    <Label Text="{Binding EndTime, StringFormat='End: {0:g}'}" />
+                                    <Label Text="{Binding DurationText, StringFormat='Duration: {0}'}" />
+                                </VerticalStackLayout>
+                                <Button
+                                    Grid.Column="1"
+                                    Text="✕"
+                                    Padding="8"
+                                    BackgroundColor="LightGray"
+                                    Clicked="OnDeleteTaskClicked" />
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

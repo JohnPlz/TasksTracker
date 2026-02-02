@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using Android.Widget;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Media;
 using Microsoft.Extensions.DependencyInjection;
@@ -131,7 +131,7 @@ public partial class MainPage : ContentPage
 
 		if (!isGranted)
 		{
-			await Toast.Make("Permission required").Show(CancellationToken.None);
+			await Toast.Make("Permission required").Show();
 			return;
 		}
 
@@ -148,8 +148,8 @@ public partial class MainPage : ContentPage
 				}), _recordingCts.Token);
 			if (result.Exception is not null)
 			{
-				await DisplayAlert("Recording error", result.Exception.Message, "OK");
-				return;
+				await Toast.Make($"Error: {result.Exception.Message}").Show();
+                return;
 			}
 
 			if (!string.IsNullOrWhiteSpace(result.Text))
@@ -174,8 +174,8 @@ public partial class MainPage : ContentPage
 	{
 		if (string.IsNullOrWhiteSpace(Description))
 		{
-			await DisplayAlert("Missing description", "Please enter a task description.", "OK");
-			return;
+			await Toast.Make("Description cannot be empty").Show();
+            return;
 		}
 
 		var start = StartDate.Date.Add(StartTime);
@@ -183,8 +183,8 @@ public partial class MainPage : ContentPage
 
 		if (end < start)
 		{
-			await DisplayAlert("Invalid time range", "End time must be after start time.", "OK");
-			return;
+			await Toast.Make("End time must be after start time").Show();
+            return;
 		}
 
 		var duration = end - start;
@@ -204,5 +204,16 @@ public partial class MainPage : ContentPage
 		EndDate = DateTime.Today;
 		StartTime = DateTime.Now.TimeOfDay;
 		EndTime = DateTime.Now.TimeOfDay;
+	}
+
+	private void OnDeleteTaskClicked(object? sender, EventArgs e)
+	{
+		if (sender is not Button button || button.BindingContext is not TaskEntry entry)
+		{
+			return;
+		}
+
+		_repository.Delete(entry.Id);
+		Tasks.Remove(entry);
 	}
 }

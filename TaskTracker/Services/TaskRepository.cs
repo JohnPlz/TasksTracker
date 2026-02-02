@@ -30,7 +30,18 @@ public class TaskRepository
     {
         using var db = new LiteDatabase(_dbPath);
         var collection = db.GetCollection<TaskEntry>(CollectionName);
-        collection.Insert(entry);
+        var id = collection.Insert(entry);
+        if (entry.Id == 0)
+        {
+            entry.Id = id.AsInt32;
+        }
         return entry;
+    }
+
+    public void Delete(int id)
+    {
+        using var db = new LiteDatabase(_dbPath);
+        var collection = db.GetCollection<TaskEntry>(CollectionName);
+        collection.Delete(id);
     }
 }

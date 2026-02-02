@@ -141,7 +141,7 @@ public partial class MainPage : ContentPage
 
 		try
 		{
-			var result = await SpeechToText.Default.ListenAsync(CultureInfo.CurrentCulture,
+			var result = await SpeechToText.Default.ListenAsync(new CultureInfo("de-DE"),
 				new Progress<string>(r =>
 				{
 					RecordingStatus = r;
@@ -149,7 +149,7 @@ public partial class MainPage : ContentPage
 			if (result.Exception is not null)
 			{
 				await Toast.Make($"Error: {result.Exception.Message}").Show();
-                return;
+				return;
 			}
 
 			if (!string.IsNullOrWhiteSpace(result.Text))
@@ -175,7 +175,7 @@ public partial class MainPage : ContentPage
 		if (string.IsNullOrWhiteSpace(Description))
 		{
 			await Toast.Make("Description cannot be empty").Show();
-            return;
+			return;
 		}
 
 		var start = StartDate.Date.Add(StartTime);
@@ -184,7 +184,7 @@ public partial class MainPage : ContentPage
 		if (end < start)
 		{
 			await Toast.Make("End time must be after start time").Show();
-            return;
+			return;
 		}
 
 		var duration = end - start;

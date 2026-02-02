@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "xvpqYQAaVNg=",
+  "dgSpecHash": "OphCo1P4HJ8=",
   "success": true,
   "projectFilePath": "C:\\repos\\TasksTracker\\TaskTracker\\TaskTracker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kadaf\\.nuget\\packages\\googlegson\\2.13.1.1\\googlegson.2.13.1.1.nupkg.sha512",
+    "C:\\Users\\kadaf\\.nuget\\packages\\litedb\\5.0.17\\litedb.5.0.17.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.9\\microsoft.extensions.configuration.9.0.9.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.0\\microsoft.extensions.configuration.10.0.0.nupkg.sha512",
     "C:\\Users\\kadaf\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.9\\microsoft.extensions.configuration.abstractions.9.0.9.nupkg.sha512",

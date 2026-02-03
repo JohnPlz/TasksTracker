@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Media;
-using Microsoft.Extensions.DependencyInjection;
 using TaskTracker.Models;
 using TaskTracker.Services;
 
@@ -35,6 +33,8 @@ public partial class MainPage : ContentPage
 			OnPropertyChanged();
 		}
 	}
+
+	public string FoundTasksText => Tasks.Count == 0 ? "No tasks found." : $"{Tasks.Count} tasks found.";
 
 	public string RecordingStatus
 	{
@@ -111,6 +111,7 @@ public partial class MainPage : ContentPage
 		{
 			Tasks.Add(item);
 		}
+		OnPropertyChanged(nameof(FoundTasksText));
 	}
 
 	private async void OnRecordDescriptionClicked(object? sender, EventArgs e)
@@ -162,6 +163,7 @@ public partial class MainPage : ContentPage
 			RecordButtonText = "Record description";
 			RecordingStatus = string.Empty;
 		}
+		OnPropertyChanged(nameof(FoundTasksText));
 	}
 
 	private async void OnSaveTaskClicked(object? sender, EventArgs e)

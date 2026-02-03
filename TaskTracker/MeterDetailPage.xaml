@@ -15,9 +15,10 @@
             <Label Text="Positions" Style="{StaticResource SubHeadline}" />
 
             <HorizontalStackLayout Spacing="12">
-                <Entry Placeholder="Value (kWh)"
-                       Keyboard="Numeric"
-                       Text="{Binding NewPositionValue}" />
+                <Entry Placeholder="{Binding ValuePlaceholder}"
+                    WidthRequest="200"
+                    Keyboard="Numeric"
+                    Text="{Binding NewPositionValue}" />
                 <Button Text="Add" Clicked="OnAddPositionClicked" />
             </HorizontalStackLayout>
 

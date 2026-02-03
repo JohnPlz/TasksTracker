@@ -72,12 +72,23 @@ public partial class MeterDetailPage : ContentPage
         }
     }
 
+    public string ValuePlaceholder
+    {
+        get => _valuePlaceholder;
+        set
+        {
+            _valuePlaceholder = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string _name = string.Empty;
     private string _number = string.Empty;
     private string _category = string.Empty;
     private string _note = string.Empty;
     private string _newPositionValue = string.Empty;
     private string _meterId = string.Empty;
+    private string _valuePlaceholder = string.Empty;
 
     public MeterDetailPage()
     {
@@ -112,6 +123,13 @@ public partial class MeterDetailPage : ContentPage
         {
             Positions.Add(position);
         }
+        ValuePlaceholder = _meter.Category switch
+        {
+            Models.Enums.MeterCategory.Electricity => "kWh",
+            Models.Enums.MeterCategory.Gas => "m³",
+            Models.Enums.MeterCategory.Water => "m³",
+            _ => "Enter value"
+        };
     }
 
     private void OnAddPositionClicked(object? sender, EventArgs e)

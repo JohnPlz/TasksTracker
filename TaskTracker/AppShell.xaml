@@ -16,4 +16,9 @@
         ContentTemplate="{DataTemplate local:TasksPage}"
         Route="TasksPage" />
 
+    <ShellContent
+        Title="Meters"
+        ContentTemplate="{DataTemplate local:MetersPage}"
+        Route="MetersPage" />
+
 </Shell>

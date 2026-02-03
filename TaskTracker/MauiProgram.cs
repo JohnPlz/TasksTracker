@@ -19,6 +19,7 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<TaskRepository>();
+		builder.Services.AddSingleton<MeterRepository>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

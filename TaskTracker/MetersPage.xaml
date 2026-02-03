@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskTracker.MetersPage"
+             Title="Meters">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <Label Text="Meters" Style="{StaticResource Headline}" />
+
+            <CollectionView ItemsSource="{Binding Meters}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnMeterSelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="12" Margin="0,6">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" />
+                                <Label Text="{Binding Category}" TextColor="{StaticResource Gray500}" />
+                                <Label Text="{Binding Number}" TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Create Meter" Style="{StaticResource SubHeadline}" />
+
+            <Entry Placeholder="Name" Text="{Binding Name}" />
+            <Entry Placeholder="Number" Text="{Binding Number}" />
+            <Picker Title="Category"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding Category}" />
+            <Editor Placeholder="Note" AutoSize="TextChanges" Text="{Binding Note}" />
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Deactivated" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding IsDeactivated}" />
+            </HorizontalStackLayout>
+
+            <Button Text="Save Meter" Clicked="OnSaveMeterClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

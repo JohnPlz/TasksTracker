@@ -11,6 +11,20 @@
 
             <Label Text="All Tasks" Style="{StaticResource Headline}" />
 
+            <SearchBar
+                Placeholder="Search description"
+                Text="{Binding SearchText}" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Filter by date" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding UseDateFilter}" />
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <DatePicker Date="{Binding FilterFrom}" />
+                <DatePicker Grid.Column="1" Date="{Binding FilterTo}" />
+            </Grid>
+
             <CollectionView ItemsSource="{Binding Tasks}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

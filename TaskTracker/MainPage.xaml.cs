@@ -107,7 +107,7 @@ public partial class MainPage : ContentPage
 	private void LoadTasks()
 	{
 		Tasks.Clear();
-		foreach (var item in _repository.GetAll())
+		foreach (var item in _repository.GetAllOrderedByDate(30))
 		{
 			Tasks.Add(item);
 		}
@@ -190,7 +190,7 @@ public partial class MainPage : ContentPage
 		};
 
 		_repository.Add(entry);
-		Tasks.Insert(0, entry);
+		LoadTasks();
 
 		Description = string.Empty;
 		StartDate = DateTime.Today;
@@ -221,6 +221,6 @@ public partial class MainPage : ContentPage
 		}
 
 		_repository.Delete(entry.Id);
-		Tasks.Remove(entry);
+		LoadTasks();
 	}
 }

@@ -26,6 +26,25 @@ public class TaskRepository
             .ToList();
     }
 
+    public IReadOnlyList<TaskEntry> GetAllOrderedByDate(int size = -1)
+    {
+        using var db = new LiteDatabase(_dbPath);
+        var collection = db.GetCollection<TaskEntry>(CollectionName);
+        if (size == -1)
+        {
+            return collection.FindAll()
+            .OrderByDescending(item => item.StartTime)
+            .ToList();
+        }
+        else
+        {
+            return collection.FindAll()
+            .OrderByDescending(item => item.StartTime)
+            .Take(size)
+            .ToList();
+        }
+    }
+
     public TaskEntry Add(TaskEntry entry)
     {
         using var db = new LiteDatabase(_dbPath);

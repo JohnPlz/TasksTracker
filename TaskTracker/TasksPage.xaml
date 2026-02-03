@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskTracker.TasksPage"
+             Title="All Tasks">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="24"
+            Spacing="16">
+
+            <Label Text="All Tasks" Style="{StaticResource Headline}" />
+
+            <CollectionView ItemsSource="{Binding Tasks}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="12" Margin="0,6">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding Description}" FontFamily="OpenSansSemibold" />
+                                    <Label Text="{Binding StartTime, StringFormat='Start: {0:g}'}" />
+                                    <Label Text="{Binding EndTime, StringFormat='End: {0:g}'}" />
+                                    <Label Text="{Binding DurationText, StringFormat='Duration: {0}'}" />
+                                </VerticalStackLayout>
+                                <Button
+                                    Grid.Column="1"
+                                    Text="✕"
+                                    Padding="8"
+                                    BackgroundColor="LightGray"
+                                    Clicked="OnDeleteTaskClicked" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

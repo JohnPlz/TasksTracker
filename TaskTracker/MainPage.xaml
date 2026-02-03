@@ -12,7 +12,7 @@
 
             <Entry
                 Placeholder="Task description"
-                Text="{Binding Description}" />
+                Text="{Binding Description}"/>
 
             <Button
                 Text="{Binding RecordButtonText}"
@@ -37,13 +37,20 @@
 
             <Label
                 Text="{Binding EstimatedEndTime, StringFormat='End: {0:g}'}"
-                TextColor="{StaticResource Gray500}" />
+                TextColor="{StaticResource Gray300}"
+                FontSize="14"
+                FontAttributes="Bold" />
 
             <Button
                 Text="Save Task"
                 Clicked="OnSaveTaskClicked" />
 
-            <Label Text="Recorded Tasks" Style="{StaticResource SubHeadline}" />
+            <HorizontalStackLayout
+                HorizontalOptions="FillAndExpand"
+                Spacing="24">
+                <Label Text="Last Tasks" Style="{StaticResource SubHeadline}" />
+                <Label Text="{Binding Tasks.Count}" Style="{StaticResource SubHeadline}" FontSize="12" />
+            </HorizontalStackLayout>
 
             <CollectionView ItemsSource="{Binding Tasks}">
                 <CollectionView.ItemTemplate>

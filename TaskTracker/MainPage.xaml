@@ -14,9 +14,9 @@
                 Placeholder="Task description"
                 Text="{Binding Description}"/>
 
-            <Button
+            <!--<Button
                 Text="{Binding RecordButtonText}"
-                Clicked="OnRecordDescriptionClicked" />
+                Clicked="OnRecordDescriptionClicked" />-->
 
             <Label
                 Text="{Binding RecordingStatus}"

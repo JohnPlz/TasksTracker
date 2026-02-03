@@ -135,7 +135,7 @@ public partial class MainPage : ContentPage
 
 		try
 		{
-			var result = await SpeechToText.Default.ListenAsync(new CultureInfo("de-DE"),
+			var result = await SpeechToText.Default.ListenAsync(CultureInfo.GetCultureInfo("de-DE"),
 				new Progress<string>(r =>
 				{
 					RecordingStatus = r;

@@ -2,6 +2,7 @@
 using System.Globalization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Media;
+using DocumentFormat.OpenXml.Drawing;
 using TaskTracker.Models;
 using TaskTracker.Services;
 
@@ -195,8 +196,7 @@ public partial class MainPage : ContentPage
 		LoadTasks();
 
 		Description = string.Empty;
-		StartDate = DateTime.Today;
-		StartTime = DateTime.Now.TimeOfDay;
+		StartTime = EstimatedEndTime.TimeOfDay;
 		DurationMinutes = 0;
 	}
 

@@ -8,6 +8,8 @@ public class TaskRepository
     private const string CollectionName = "tasks";
     private readonly string _dbPath;
 
+    public string DatabasePath => _dbPath;
+
     public TaskRepository(string? dbPath = null)
     {
         _dbPath = dbPath ?? Path.Combine(FileSystem.AppDataDirectory, "tasktracker.db");

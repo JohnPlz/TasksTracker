@@ -215,9 +215,15 @@ public partial class MainPage : ContentPage
 		DurationMinutes += minutes;
 	}
 
-	private void OnDeleteTaskClicked(object? sender, EventArgs e)
+	private async void OnDeleteTaskClicked(object? sender, EventArgs e)
 	{
 		if (sender is not Button button || button.BindingContext is not TaskEntry entry)
+		{
+			return;
+		}
+
+		var confirmed = await DisplayAlertAsync("Delete task", "Do you want to delete this task?", "Delete", "Cancel");
+		if (!confirmed)
 		{
 			return;
 		}

@@ -79,4 +79,8 @@
 		<PackageReference Include="ClosedXML" Version="0.105.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Models\Enums\" />
+	</ItemGroup>
+
 </Project>

@@ -25,6 +25,16 @@
                 <DatePicker Grid.Column="1" Date="{Binding FilterTo}" />
             </Grid>
 
+            <HorizontalStackLayout Spacing="12">
+                <Picker
+                    Title="Year"
+                    ItemsSource="{Binding Years}"
+                    SelectedItem="{Binding SelectedYear}" />
+                <Button
+                    Text="Export Excel"
+                    Clicked="OnExportExcelClicked" />
+            </HorizontalStackLayout>
+
             <CollectionView ItemsSource="{Binding Tasks}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

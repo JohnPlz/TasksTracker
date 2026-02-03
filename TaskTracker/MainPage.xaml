@@ -28,11 +28,16 @@
                 <TimePicker Time="{Binding StartTime}" />
             </HorizontalStackLayout>
 
-            <Label Text="End" FontFamily="OpenSansSemibold" />
             <HorizontalStackLayout Spacing="12">
-                <DatePicker Date="{Binding EndDate}" />
-                <TimePicker Time="{Binding EndTime}" />
+                <Button Text="+15" Clicked="OnAddDurationClicked" CommandParameter="15" />
+                <Button Text="+30" Clicked="OnAddDurationClicked" CommandParameter="30" />
+                <Button Text="+45" Clicked="OnAddDurationClicked" CommandParameter="45" />
+                <Button Text="+60" Clicked="OnAddDurationClicked" CommandParameter="60" />
             </HorizontalStackLayout>
+
+            <Label
+                Text="{Binding EstimatedEndTime, StringFormat='End: {0:g}'}"
+                TextColor="{StaticResource Gray500}" />
 
             <Button
                 Text="Save Task"

@@ -34,8 +34,6 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-**/bin/
-**/obj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -482,3 +480,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/.vs/TaskTracker.slnx/v18/.suo

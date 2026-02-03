@@ -53,6 +53,7 @@ public partial class MainPage : ContentPage
 		{
 			_startDate = value;
 			OnPropertyChanged();
+			OnPropertyChanged(nameof(EstimatedEndTime));
 		}
 	}
 
@@ -63,36 +64,29 @@ public partial class MainPage : ContentPage
 		{
 			_startTime = value;
 			OnPropertyChanged();
+			OnPropertyChanged(nameof(EstimatedEndTime));
 		}
 	}
 
-	public DateTime EndDate
+	public double DurationMinutes
 	{
-		get => _endDate;
+		get => _durationMinutes;
 		set
 		{
-			_endDate = value;
+			_durationMinutes = value;
 			OnPropertyChanged();
+			OnPropertyChanged(nameof(EstimatedEndTime));
 		}
 	}
 
-	public TimeSpan EndTime
-	{
-		get => _endTime;
-		set
-		{
-			_endTime = value;
-			OnPropertyChanged();
-		}
-	}
+	public DateTime EstimatedEndTime => StartDate.Date.Add(StartTime).AddMinutes(DurationMinutes);
 
 	private string _description = string.Empty;
 	private string _recordButtonText = "Record description";
 	private string _recordingStatus = string.Empty;
 	private DateTime _startDate = DateTime.Today;
 	private TimeSpan _startTime = DateTime.Now.TimeOfDay;
-	private DateTime _endDate = DateTime.Today;
-	private TimeSpan _endTime = DateTime.Now.TimeOfDay;
+	private double _durationMinutes;
 
 	public MainPage()
 	{
@@ -178,16 +172,15 @@ public partial class MainPage : ContentPage
 			return;
 		}
 
-		var start = StartDate.Date.Add(StartTime);
-		var end = EndDate.Date.Add(EndTime);
-
-		if (end < start)
+		if (DurationMinutes <= 0)
 		{
-			await Toast.Make("End time must be after start time").Show();
+			await Toast.Make("Duration must be at least 15 minutes").Show();
 			return;
 		}
 
-		var duration = end - start;
+		var start = StartDate.Date.Add(StartTime);
+		var duration = TimeSpan.FromMinutes(DurationMinutes);
+		var end = start.Add(duration);
 		var entry = new TaskEntry
 		{
 			Description = Description.Trim(),
@@ -201,9 +194,23 @@ public partial class MainPage : ContentPage
 
 		Description = string.Empty;
 		StartDate = DateTime.Today;
-		EndDate = DateTime.Today;
 		StartTime = DateTime.Now.TimeOfDay;
-		EndTime = DateTime.Now.TimeOfDay;
+		DurationMinutes = 0;
+	}
+
+	private void OnAddDurationClicked(object? sender, EventArgs e)
+	{
+		if (sender is not Button button)
+		{
+			return;
+		}
+
+		if (button.CommandParameter is null || !double.TryParse(button.CommandParameter.ToString(), out var minutes))
+		{
+			return;
+		}
+
+		DurationMinutes += minutes;
 	}
 
 	private void OnDeleteTaskClicked(object? sender, EventArgs e)

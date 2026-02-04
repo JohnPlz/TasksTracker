@@ -21,4 +21,9 @@
         ContentTemplate="{DataTemplate local:MetersPage}"
         Route="MetersPage" />
 
+    <ShellContent
+        Title="Backup"
+        ContentTemplate="{DataTemplate local:BackupPage}"
+        Route="BackupPage" />
+
 </Shell>

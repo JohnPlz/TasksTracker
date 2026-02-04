@@ -84,14 +84,6 @@
                     Clicked="OnExportExcelClicked" />
             </HorizontalStackLayout>
 
-            <Button
-                Text="Backup Database"
-                Clicked="OnBackupDatabaseClicked" />
-
-            <Button
-                Text="Import Backup"
-                Clicked="OnImportBackupClicked" />
-
             <CollectionView ItemsSource="{Binding TaskItems}"
                             ItemTemplate="{StaticResource TaskItemTemplateSelector}" />
 

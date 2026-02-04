@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "TaskTracker\\MainPage.xaml",
               "ToolTip": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml",
               "RelativeToolTip": "TaskTracker\\MainPage.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-03T20:39:47.058Z",
               "EditorCaption": ""
@@ -75,8 +75,7 @@
               "RelativeToolTip": "TaskTracker\\MainPage.xaml.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAuwKUAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T20:48:20.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-02T20:48:20.951Z"
             }
           ]
         }

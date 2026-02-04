@@ -16,7 +16,7 @@ public partial class TasksPage : ContentPage
     private readonly TaskRepository _repository;
     private readonly List<TaskEntry> _allTasks = new();
 
-    public ObservableCollection<TaskEntry> Tasks { get; } = new();
+    public ObservableCollection<TaskListItem> TaskItems { get; } = new();
     public ObservableCollection<int> Years { get; } = new();
 
     public int? SelectedYear
@@ -150,16 +150,49 @@ public partial class TasksPage : ContentPage
             query = query.Where(item => item.StartTime >= from && item.StartTime <= toInclusive);
         }
 
-        Tasks.Clear();
-        foreach (var item in query)
+        BuildTaskItems(query);
+    }
+
+    private void BuildTaskItems(IEnumerable<TaskEntry> entries)
+    {
+        TaskItems.Clear();
+
+        var culture = CultureInfo.GetCultureInfo("de-DE");
+        var ordered = entries.OrderBy(item => item.StartTime).ToList();
+        var monthGroups = ordered.GroupBy(item => new { item.StartTime.Year, item.StartTime.Month });
+
+        foreach (var monthGroup in monthGroups)
         {
-            Tasks.Add(item);
+            var monthName = culture.DateTimeFormat.GetMonthName(monthGroup.Key.Month);
+            TaskItems.Add(new TaskMonthHeaderItem($"{monthName} {monthGroup.Key.Year}"));
+
+            var dateGroups = monthGroup.GroupBy(item => item.StartTime.Date);
+            foreach (var dateGroup in dateGroups)
+            {
+                TaskItems.Add(new TaskDateHeaderItem(dateGroup.Key.ToString("dd.MM.yyyy")));
+
+                foreach (var entry in dateGroup.OrderBy(item => item.StartTime))
+                {
+                    TaskItems.Add(new TaskEntryItem(entry));
+                }
+            }
+
+            var monthHours = monthGroup.Sum(item => item.DurationMinutes) / 60d;
+            TaskItems.Add(new TaskMonthSummaryItem($"Summe {monthName}: {monthHours:F2} Stunden"));
         }
     }
 
     private async void OnDeleteTaskClicked(object? sender, EventArgs e)
     {
-        if (sender is not Button button || button.BindingContext is not TaskEntry entry)
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        var entry = button.CommandParameter as TaskEntry
+            ?? (button.BindingContext as TaskEntryItem)?.Task;
+
+        if (entry is null)
         {
             return;
         }
@@ -172,7 +205,7 @@ public partial class TasksPage : ContentPage
 
         _repository.Delete(entry.Id);
         _allTasks.Remove(entry);
-        Tasks.Remove(entry);
+        ApplyFilters();
     }
 
     private async void OnExportExcelClicked(object? sender, EventArgs e)
@@ -312,5 +345,83 @@ public partial class TasksPage : ContentPage
         {
             await Toast.Make($"Import failed: {ex.Message}").Show();
         }
+    }
+}
+
+public enum TaskListItemKind
+{
+    Task,
+    DateHeader,
+    MonthHeader,
+    MonthSummary
+}
+
+public abstract class TaskListItem
+{
+    protected TaskListItem(TaskListItemKind kind)
+    {
+        Kind = kind;
+    }
+
+    public TaskListItemKind Kind { get; }
+}
+
+public sealed class TaskEntryItem : TaskListItem
+{
+    public TaskEntryItem(TaskEntry task) : base(TaskListItemKind.Task)
+    {
+        Task = task;
+    }
+
+    public TaskEntry Task { get; }
+}
+
+public sealed class TaskDateHeaderItem : TaskListItem
+{
+    public TaskDateHeaderItem(string dateText) : base(TaskListItemKind.DateHeader)
+    {
+        DateText = dateText;
+    }
+
+    public string DateText { get; }
+}
+
+public sealed class TaskMonthHeaderItem : TaskListItem
+{
+    public TaskMonthHeaderItem(string monthText) : base(TaskListItemKind.MonthHeader)
+    {
+        MonthText = monthText;
+    }
+
+    public string MonthText { get; }
+}
+
+public sealed class TaskMonthSummaryItem : TaskListItem
+{
+    public TaskMonthSummaryItem(string summaryText) : base(TaskListItemKind.MonthSummary)
+    {
+        SummaryText = summaryText;
+    }
+
+    public string SummaryText { get; }
+}
+
+public class TaskListItemTemplateSelector : DataTemplateSelector
+{
+    public DataTemplate? TaskTemplate { get; set; }
+    public DataTemplate? DateHeaderTemplate { get; set; }
+    public DataTemplate? MonthHeaderTemplate { get; set; }
+    public DataTemplate? MonthSummaryTemplate { get; set; }
+
+    protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+    {
+        return item switch
+        {
+            TaskEntryItem => TaskTemplate ?? new DataTemplate(),
+            TaskDateHeaderItem => DateHeaderTemplate ?? new DataTemplate(),
+            TaskMonthHeaderItem => MonthHeaderTemplate ?? new DataTemplate(),
+            TaskMonthSummaryItem => MonthSummaryTemplate ?? new DataTemplate(),
+            _ => TaskTemplate ?? new DataTemplate()
+        };
     }
 }

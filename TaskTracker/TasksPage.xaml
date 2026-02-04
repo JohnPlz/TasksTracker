@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TaskTracker"
              x:Class="TaskTracker.TasksPage"
              Title="All Tasks">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="TaskEntryTemplate">
+                <Border Padding="12" Margin="0,6">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Task.Description}" FontFamily="OpenSansSemibold" />
+                            <Label Text="{Binding Task.StartTime, StringFormat='Start: {0:g}'}" />
+                            <Label Text="{Binding Task.EndTime, StringFormat='End: {0:g}'}" />
+                            <Label Text="{Binding Task.DurationText, StringFormat='Duration: {0}'}" />
+                        </VerticalStackLayout>
+                        <Button
+                            Grid.Column="1"
+                            Text="✕"
+                            Padding="8"
+                            BackgroundColor="LightGray"
+                            CommandParameter="{Binding Task}"
+                            Clicked="OnDeleteTaskClicked" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateHeaderTemplate">
+                <Border Padding="8" Margin="0,8,0,0" BackgroundColor="{StaticResource Gray200}">
+                    <Label Text="{Binding DateText}" FontFamily="OpenSansSemibold" />
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MonthHeaderTemplate">
+                <Border Padding="8" Margin="0,12,0,0" BackgroundColor="{StaticResource Gray300}">
+                    <Label Text="{Binding MonthText}" FontFamily="OpenSansSemibold" />
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MonthSummaryTemplate">
+                <Border Padding="8" Margin="0,6,0,6" BackgroundColor="{StaticResource Gray200}">
+                    <Label Text="{Binding SummaryText}" FontFamily="OpenSansSemibold" />
+                </Border>
+            </DataTemplate>
+
+            <local:TaskListItemTemplateSelector x:Key="TaskItemTemplateSelector"
+                                                TaskTemplate="{StaticResource TaskEntryTemplate}"
+                                                DateHeaderTemplate="{StaticResource DateHeaderTemplate}"
+                                                MonthHeaderTemplate="{StaticResource MonthHeaderTemplate}"
+                                                MonthSummaryTemplate="{StaticResource MonthSummaryTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout
@@ -43,28 +92,8 @@
                 Text="Import Backup"
                 Clicked="OnImportBackupClicked" />
 
-            <CollectionView ItemsSource="{Binding Tasks}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="12" Margin="0,6">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="{Binding Description}" FontFamily="OpenSansSemibold" />
-                                    <Label Text="{Binding StartTime, StringFormat='Start: {0:g}'}" />
-                                    <Label Text="{Binding EndTime, StringFormat='End: {0:g}'}" />
-                                    <Label Text="{Binding DurationText, StringFormat='Duration: {0}'}" />
-                                </VerticalStackLayout>
-                                <Button
-                                    Grid.Column="1"
-                                    Text="✕"
-                                    Padding="8"
-                                    BackgroundColor="LightGray"
-                                    Clicked="OnDeleteTaskClicked" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <CollectionView ItemsSource="{Binding TaskItems}"
+                            ItemTemplate="{StaticResource TaskItemTemplateSelector}" />
 
         </VerticalStackLayout>
     </ScrollView>

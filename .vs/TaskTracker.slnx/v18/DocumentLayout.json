@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\repos\\TasksTracker\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|c:\\repos\\taskstracker\\tasktracker\\taskspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|solutionrelative:tasktracker\\taskspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|c:\\repos\\taskstracker\\tasktracker\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{1781B1C9-6FB6-821C-1C8F-ADC55F55701D}|TaskTracker\\TaskTracker.csproj|solutionrelative:tasktracker\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -55,19 +59,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TasksPage.xaml",
+              "DocumentMoniker": "C:\\repos\\TasksTracker\\TaskTracker\\TasksPage.xaml",
+              "RelativeDocumentMoniker": "TaskTracker\\TasksPage.xaml",
+              "ToolTip": "C:\\repos\\TasksTracker\\TaskTracker\\TasksPage.xaml",
+              "RelativeToolTip": "TaskTracker\\TasksPage.xaml",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-02-04T17:18:33.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainPage.xaml",
               "DocumentMoniker": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml",
               "RelativeDocumentMoniker": "TaskTracker\\MainPage.xaml",
               "ToolTip": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml",
               "RelativeToolTip": "TaskTracker\\MainPage.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-03T20:39:47.058Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\repos\\TasksTracker\\TaskTracker\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "TaskTracker\\MainPage.xaml.cs",
@@ -75,7 +92,8 @@
               "RelativeToolTip": "TaskTracker\\MainPage.xaml.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAuwKUAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T20:48:20.951Z"
+              "WhenOpened": "2026-02-02T20:48:20.951Z",
+              "EditorCaption": ""
             }
           ]
         }

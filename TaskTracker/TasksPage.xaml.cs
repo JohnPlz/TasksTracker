@@ -155,7 +155,7 @@ public partial class TasksPage : ContentPage
         TaskItems.Clear();
 
         var culture = CultureInfo.GetCultureInfo("de-DE");
-        var ordered = entries.OrderBy(item => item.StartTime).ToList();
+        var ordered = entries.OrderByDescending(item => item.StartTime).ToList();
         var monthGroups = ordered.GroupBy(item => new { item.StartTime.Year, item.StartTime.Month });
 
         foreach (var monthGroup in monthGroups)
@@ -168,7 +168,7 @@ public partial class TasksPage : ContentPage
             {
                 TaskItems.Add(new TaskDateHeaderItem(dateGroup.Key.ToString("dd.MM.yyyy")));
 
-                foreach (var entry in dateGroup.OrderBy(item => item.StartTime))
+                foreach (var entry in dateGroup.OrderByDescending(item => item.StartTime))
                 {
                     TaskItems.Add(new TaskEntryItem(entry));
                 }

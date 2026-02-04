@@ -214,6 +214,13 @@ public partial class MainPage : ContentPage
         DurationMinutes += minutes;
     }
 
+    private void OnSetNowClicked(object? sender, EventArgs e)
+    {
+        var now = DateTime.Now;
+        StartDate = now.Date;
+        StartTime = now.TimeOfDay;
+    }
+
     private async void OnDeleteTaskClicked(object? sender, EventArgs e)
     {
         if (sender is not Button button || button.BindingContext is not TaskEntry entry)

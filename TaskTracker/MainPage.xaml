@@ -33,6 +33,7 @@
                 <Button Text="+30" Clicked="OnAddDurationClicked" CommandParameter="30" />
                 <Button Text="+45" Clicked="OnAddDurationClicked" CommandParameter="45" />
                 <Button Text="+60" Clicked="OnAddDurationClicked" CommandParameter="60" />
+                <Button Text="Now" Clicked="OnSetNowClicked" BackgroundColor="#FFD5CEDF" FontAttributes="Bold" />
             </HorizontalStackLayout>
 
             <HorizontalStackLayout>

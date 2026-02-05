@@ -7,7 +7,7 @@
     Title="TaskTracker">
 
     <ShellContent
-        Title="Home"
+        Title="Tracker"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

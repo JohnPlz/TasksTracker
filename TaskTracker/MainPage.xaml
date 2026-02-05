@@ -8,8 +8,6 @@
             Padding="24"
             Spacing="16">
 
-            <Label Text="Task Tracker" Style="{StaticResource Headline}" />
-
             <Entry
                 Placeholder="Task description"
                 Text="{Binding Description}"/>

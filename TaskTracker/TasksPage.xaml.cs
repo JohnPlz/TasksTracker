@@ -86,16 +86,17 @@ public partial class TasksPage : ContentPage
         BindingContext = this;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LoadTasks();
+        await LoadTasksAsync();
     }
 
-    private void LoadTasks()
+    private async Task LoadTasksAsync()
     {
+        var items = await _repository.GetAllAsync();
         _allTasks.Clear();
-        _allTasks.AddRange(_repository.GetAll());
+        _allTasks.AddRange(items);
         UpdateYears();
         ApplyFilters();
     }

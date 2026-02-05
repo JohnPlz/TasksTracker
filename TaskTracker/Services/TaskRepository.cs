@@ -28,6 +28,11 @@ public class TaskRepository
             .ToList();
     }
 
+    public Task<IReadOnlyList<TaskEntry>> GetAllAsync()
+    {
+        return Task.Run(GetAll);
+    }
+
     public IReadOnlyList<TaskEntry> GetAllOrderedByDate(int size = -1)
     {
         using var db = new LiteDatabase(_dbPath);
@@ -45,6 +50,11 @@ public class TaskRepository
             .Take(size)
             .ToList();
         }
+    }
+
+    public Task<IReadOnlyList<TaskEntry>> GetAllOrderedByDateAsync(int size = -1)
+    {
+        return Task.Run(() => GetAllOrderedByDate(size));
     }
 
     public TaskEntry Add(TaskEntry entry)

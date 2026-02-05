@@ -99,16 +99,17 @@ public partial class MainPage : ContentPage
         BindingContext = this;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LoadTasks();
+        await LoadTasksAsync();
     }
 
-    private void LoadTasks()
+    private async Task LoadTasksAsync()
     {
+        var items = await _repository.GetAllOrderedByDateAsync(30);
         Tasks.Clear();
-        foreach (var item in _repository.GetAllOrderedByDate(30))
+        foreach (var item in items)
         {
             Tasks.Add(item);
         }
@@ -192,7 +193,7 @@ public partial class MainPage : ContentPage
         };
 
         _repository.Add(entry);
-        LoadTasks();
+        await LoadTasksAsync();
 
         Description = string.Empty;
         StartTime = EstimatedEndTime.TimeOfDay;
@@ -235,6 +236,6 @@ public partial class MainPage : ContentPage
         }
 
         _repository.Delete(entry.Id);
-        LoadTasks();
+        await LoadTasksAsync();
     }
 }

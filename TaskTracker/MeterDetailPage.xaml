@@ -38,11 +38,20 @@
                     <DataTemplate>
                         <Border Padding="10" Margin="0,4">
                             <Grid ColumnDefinitions="*,Auto">
-                                <HorizontalStackLayout Spacing="12">
-                                    <Label Text="{Binding AddedAt, StringFormat='Datum: {0:dd.MM.yyyy HH:mm}'}" />
-                                    <Label Text="{Binding Value, StringFormat='Wert: {0:F2}'}" />
-                                    <Label Text="{Binding SecondValue, StringFormat='Zweitwert: {0:F2}'}" />
-                                </HorizontalStackLayout>
+                                <VerticalStackLayout Spacing="6">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="•" />
+                                        <Label Text="{Binding AddedAt, StringFormat='Datum: {0:dd.MM.yyyy HH:mm}'}" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="•" />
+                                        <Label Text="{Binding Value, StringFormat='Wert: {0:F2}'}" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="•" />
+                                        <Label Text="{Binding SecondValue, StringFormat='Wert 2: {0:F2}'}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
                                 <Button
                                     Grid.Column="1"
                                     Text="X"

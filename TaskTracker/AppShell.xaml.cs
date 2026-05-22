@@ -6,5 +6,6 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 		Routing.RegisterRoute("meterdetail", typeof(MeterDetailPage));
+		Routing.RegisterRoute("newmeter", typeof(NewMeterPage));
 	}
 }

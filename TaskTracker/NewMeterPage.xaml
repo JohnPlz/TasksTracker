@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskTracker.NewMeterPage"
+             Title="New Meter">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <Label Text="Create Meter" Style="{StaticResource Headline}" />
+
+            <Entry Placeholder="Name" Text="{Binding Name}" />
+            <Entry Placeholder="Number" Text="{Binding Number}" />
+            <Picker Title="Category"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding Category}" />
+            <Editor Placeholder="Note" AutoSize="TextChanges" Text="{Binding Note}" />
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Deactivated" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding IsDeactivated}" />
+            </HorizontalStackLayout>
+
+            <Button Text="Save Meter" Clicked="OnSaveMeterClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

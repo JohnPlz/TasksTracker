@@ -20,6 +20,15 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<TaskRepository>();
 		builder.Services.AddSingleton<MeterRepository>();
+		builder.Services.AddSingleton<IBackupFileSystem, SystemBackupFileSystem>();
+		builder.Services.AddSingleton<IBackupClock, SystemBackupClock>();
+		builder.Services.AddSingleton<IBackupInteraction, MauiBackupInteraction>();
+		builder.Services.AddSingleton<BackupService>(serviceProvider =>
+			new BackupService(
+				serviceProvider.GetRequiredService<TaskRepository>().DatabasePath,
+				serviceProvider.GetRequiredService<IBackupFileSystem>(),
+				serviceProvider.GetRequiredService<IBackupClock>(),
+				serviceProvider.GetRequiredService<IBackupInteraction>()));
 
 #if DEBUG
 		builder.Logging.AddDebug();

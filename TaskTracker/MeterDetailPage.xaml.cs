@@ -132,6 +132,40 @@ public partial class MeterDetailPage : ContentPage
         };
     }
 
+    private void OnSaveMeterClicked(object? sender, EventArgs e)
+    {
+        if (_meter is null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            return;
+        }
+
+        _meter.Name = Name.Trim();
+        _meter.Number = Number.Trim();
+        _repository.Upsert(_meter);
+    }
+
+    private async void OnDeleteMeterClicked(object? sender, EventArgs e)
+    {
+        if (_meter is null)
+        {
+            return;
+        }
+
+        var confirmed = await DisplayAlertAsync("Delete meter", "Do you want to delete this meter?", "Delete", "Cancel");
+        if (!confirmed)
+        {
+            return;
+        }
+
+        _repository.DeleteMeter(_meter.Id);
+        await Shell.Current.GoToAsync("..");
+    }
+
     private void OnAddPositionClicked(object? sender, EventArgs e)
     {
         if (_meter is null)
@@ -148,5 +182,22 @@ public partial class MeterDetailPage : ContentPage
         _meter.Positions.Add(position);
         Positions.Insert(0, position);
         NewPositionValue = string.Empty;
+    }
+
+    private void OnDeletePositionClicked(object? sender, EventArgs e)
+    {
+        if (_meter is null || sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.CommandParameter is not Position position)
+        {
+            return;
+        }
+
+        _repository.DeletePosition(_meter.Id, position.Id);
+        _meter.Positions.Remove(position);
+        Positions.Remove(position);
     }
 }

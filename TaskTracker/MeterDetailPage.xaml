@@ -7,10 +7,17 @@
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="16">
 
-            <Label Text="{Binding Name}" Style="{StaticResource Headline}" />
+            <Label Text="Meter" Style="{StaticResource Headline}" />
             <Label Text="{Binding Category}" TextColor="{StaticResource Gray500}" />
-            <Label Text="{Binding Number}" TextColor="{StaticResource Gray500}" />
+
+            <Entry Placeholder="Name" Text="{Binding Name}" />
+            <Entry Placeholder="Number" Text="{Binding Number}" />
             <Label Text="{Binding Note}" TextColor="{StaticResource Gray500}" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Button Text="Save" Clicked="OnSaveMeterClicked" />
+                <Button Text="Delete Meter" Clicked="OnDeleteMeterClicked" />
+            </HorizontalStackLayout>
 
             <Label Text="Positions" Style="{StaticResource SubHeadline}" />
 
@@ -26,10 +33,18 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="10" Margin="0,4">
-                            <HorizontalStackLayout Spacing="12">
-                                <Label Text="{Binding AddedAt, StringFormat='Datum: {0:dd.MM.yyyy HH:mm}'}" />
-                                <Label Text="{Binding Value, StringFormat='Wert: {0:F2}'}" />
-                            </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <HorizontalStackLayout Spacing="12">
+                                    <Label Text="{Binding AddedAt, StringFormat='Datum: {0:dd.MM.yyyy HH:mm}'}" />
+                                    <Label Text="{Binding Value, StringFormat='Wert: {0:F2}'}" />
+                                </HorizontalStackLayout>
+                                <Button
+                                    Grid.Column="1"
+                                    Text="X"
+                                    Padding="6"
+                                    CommandParameter="{Binding}"
+                                    Clicked="OnDeletePositionClicked" />
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

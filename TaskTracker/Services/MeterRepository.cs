@@ -51,6 +51,13 @@ public class MeterRepository
         return meter;
     }
 
+    public void DeleteMeter(int meterId)
+    {
+        using var db = new LiteDatabase(_dbPath);
+        var collection = db.GetCollection<Meter>(CollectionName);
+        collection.Delete(meterId);
+    }
+
     public Position AddPosition(int meterId, double value, DateTime? addedAt = null)
     {
         using var db = new LiteDatabase(_dbPath);
@@ -72,5 +79,25 @@ public class MeterRepository
         meter.Positions.Add(position);
         collection.Update(meter);
         return position;
+    }
+
+    public void DeletePosition(int meterId, int positionId)
+    {
+        using var db = new LiteDatabase(_dbPath);
+        var collection = db.GetCollection<Meter>(CollectionName);
+        var meter = collection.FindById(meterId);
+        if (meter is null)
+        {
+            return;
+        }
+
+        var position = meter.Positions.FirstOrDefault(item => item.Id == positionId);
+        if (position is null)
+        {
+            return;
+        }
+
+        meter.Positions.Remove(position);
+        collection.Update(meter);
     }
 }

@@ -58,7 +58,7 @@ public class MeterRepository
         collection.Delete(meterId);
     }
 
-    public Position AddPosition(int meterId, double value, DateTime? addedAt = null)
+    public Position AddPosition(int meterId, double value, double secondValue, DateTime? addedAt = null)
     {
         using var db = new LiteDatabase(_dbPath);
         var collection = db.GetCollection<Meter>(CollectionName);
@@ -73,6 +73,7 @@ public class MeterRepository
         {
             Id = nextId,
             Value = value,
+            SecondValue = secondValue,
             AddedAt = addedAt ?? DateTime.Now
         };
 

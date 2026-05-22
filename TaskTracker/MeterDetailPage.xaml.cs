@@ -62,6 +62,16 @@ public partial class MeterDetailPage : ContentPage
         }
     }
 
+    public string NewSecondPositionValue
+    {
+        get => _newSecondPositionValue;
+        set
+        {
+            _newSecondPositionValue = value;
+            OnPropertyChanged();
+        }
+    }
+
     public string MeterId
     {
         get => _meterId;
@@ -82,13 +92,25 @@ public partial class MeterDetailPage : ContentPage
         }
     }
 
+    public string SecondValuePlaceholder
+    {
+        get => _secondValuePlaceholder;
+        set
+        {
+            _secondValuePlaceholder = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string _name = string.Empty;
     private string _number = string.Empty;
     private string _category = string.Empty;
     private string _note = string.Empty;
     private string _newPositionValue = string.Empty;
+    private string _newSecondPositionValue = string.Empty;
     private string _meterId = string.Empty;
     private string _valuePlaceholder = string.Empty;
+    private string _secondValuePlaceholder = string.Empty;
 
     public MeterDetailPage()
     {
@@ -129,6 +151,13 @@ public partial class MeterDetailPage : ContentPage
             Models.Enums.MeterCategory.Gas => "m³",
             Models.Enums.MeterCategory.Water => "m³",
             _ => "Enter value"
+        };
+        SecondValuePlaceholder = _meter.Category switch
+        {
+            Models.Enums.MeterCategory.Electricity => "kWh (2)",
+            Models.Enums.MeterCategory.Gas => "m³ (2)",
+            Models.Enums.MeterCategory.Water => "m³ (2)",
+            _ => "Second value"
         };
     }
 
@@ -178,10 +207,16 @@ public partial class MeterDetailPage : ContentPage
             return;
         }
 
-        var position = _repository.AddPosition(_meter.Id, value);
+        if (!double.TryParse(NewSecondPositionValue, out var secondValue))
+        {
+            return;
+        }
+
+        var position = _repository.AddPosition(_meter.Id, value, secondValue);
         _meter.Positions.Add(position);
         Positions.Insert(0, position);
         NewPositionValue = string.Empty;
+        NewSecondPositionValue = string.Empty;
     }
 
     private void OnDeletePositionClicked(object? sender, EventArgs e)

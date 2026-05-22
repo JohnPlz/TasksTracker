@@ -26,6 +26,10 @@
                     WidthRequest="200"
                     Keyboard="Numeric"
                     Text="{Binding NewPositionValue}" />
+                <Entry Placeholder="{Binding SecondValuePlaceholder}"
+                    WidthRequest="200"
+                    Keyboard="Numeric"
+                    Text="{Binding NewSecondPositionValue}" />
                 <Button Text="Add" Clicked="OnAddPositionClicked" />
             </HorizontalStackLayout>
 
@@ -37,6 +41,7 @@
                                 <HorizontalStackLayout Spacing="12">
                                     <Label Text="{Binding AddedAt, StringFormat='Datum: {0:dd.MM.yyyy HH:mm}'}" />
                                     <Label Text="{Binding Value, StringFormat='Wert: {0:F2}'}" />
+                                    <Label Text="{Binding SecondValue, StringFormat='Zweitwert: {0:F2}'}" />
                                 </HorizontalStackLayout>
                                 <Button
                                     Grid.Column="1"

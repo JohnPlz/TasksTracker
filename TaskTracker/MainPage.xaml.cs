@@ -15,6 +15,16 @@ public partial class MainPage : ContentPage
 
     public ObservableCollection<TaskEntry> Tasks { get; } = new();
 
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+
     public string Description
     {
         get => _description;
@@ -88,6 +98,7 @@ public partial class MainPage : ContentPage
     private DateTime _startDate = DateTime.Today;
     private TimeSpan _startTime = DateTime.Now.TimeOfDay;
     private double _durationMinutes;
+    private bool _isLoading;
 
     public MainPage()
     {
@@ -107,13 +118,21 @@ public partial class MainPage : ContentPage
 
     private async Task LoadTasksAsync()
     {
-        var items = await _repository.GetAllOrderedByDateAsync(30);
-        Tasks.Clear();
-        foreach (var item in items)
+        try
         {
-            Tasks.Add(item);
+            IsLoading = true;
+            var items = await _repository.GetAllOrderedByDateAsync(30);
+            Tasks.Clear();
+            foreach (var item in items)
+            {
+                Tasks.Add(item);
+            }
+            OnPropertyChanged(nameof(FoundTasksText));
         }
-        OnPropertyChanged(nameof(FoundTasksText));
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     // TODO: Refactor to use. Check: https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/essentials/speech-to-text?tabs=windows

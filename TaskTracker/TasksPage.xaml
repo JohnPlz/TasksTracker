@@ -58,6 +58,11 @@
             Padding="24"
             Spacing="16">
 
+            <ActivityIndicator
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                HorizontalOptions="Center" />
+
             <SearchBar
                 Placeholder="Search description"
                 Text="{Binding SearchText}" />
@@ -84,6 +89,23 @@
 
             <CollectionView ItemsSource="{Binding TaskItems}"
                             ItemTemplate="{StaticResource TaskItemTemplateSelector}" />
+
+            <CollectionView
+                ItemsSource="{Binding Pages}"
+                SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Text="{Binding .}"
+                            Padding="12,6"
+                            CommandParameter="{Binding .}"
+                            Clicked="OnPageButtonClicked" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>

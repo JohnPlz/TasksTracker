@@ -8,8 +8,20 @@ public partial class MetersPage : ContentPage
 {
     private readonly MeterRepository _repository;
     private readonly List<Meter> _allMeters = new();
+    private const int PageSize = 20;
 
     public ObservableCollection<Meter> Meters { get; } = new();
+    public ObservableCollection<int> Pages { get; } = new();
+
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string SearchText
     {
@@ -22,7 +34,40 @@ public partial class MetersPage : ContentPage
         }
     }
 
+    public int CurrentPage
+    {
+        get => _currentPage;
+        private set
+        {
+            if (_currentPage == value)
+            {
+                return;
+            }
+
+            _currentPage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        private set
+        {
+            if (_totalPages == value)
+            {
+                return;
+            }
+
+            _totalPages = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string _searchText = string.Empty;
+    private bool _isLoading;
+    private int _currentPage = 1;
+    private int _totalPages = 1;
 
     public MetersPage()
     {
@@ -34,20 +79,29 @@ public partial class MetersPage : ContentPage
         BindingContext = this;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LoadMeters();
+        await LoadMetersAsync();
     }
 
-    private void LoadMeters()
+    private async Task LoadMetersAsync()
     {
-        _allMeters.Clear();
-        _allMeters.AddRange(_repository.GetAll());
-        ApplyFilters();
+        try
+        {
+            IsLoading = true;
+            var items = await _repository.GetAllAsync();
+            _allMeters.Clear();
+            _allMeters.AddRange(items);
+            ApplyFilters();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
-    private void ApplyFilters()
+    private void ApplyFilters(bool resetPage = true)
     {
         IEnumerable<Meter> query = _allMeters;
 
@@ -59,12 +113,35 @@ public partial class MetersPage : ContentPage
                 || meter.Number.Contains(term, StringComparison.OrdinalIgnoreCase));
         }
 
+        var ordered = query.OrderBy(meter => meter.Number).ThenBy(meter => meter.Name).ToList();
+        UpdatePaging(ordered.Count, resetPage);
+        var paged = ordered
+            .Skip((CurrentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+
         Meters.Clear();
-        foreach (var meter in query.OrderBy(meter => meter.Number).ThenBy(meter => meter.Name))
+        foreach (var meter in paged)
         {
             Meters.Add(meter);
         }
+    }
 
+    private void UpdatePaging(int totalCount, bool resetPage)
+    {
+        var pages = Math.Max(1, (int)Math.Ceiling(totalCount / (double)PageSize));
+        TotalPages = pages;
+
+        if (resetPage || CurrentPage > TotalPages)
+        {
+            CurrentPage = 1;
+        }
+
+        Pages.Clear();
+        for (var i = 1; i <= TotalPages; i++)
+        {
+            Pages.Add(i);
+        }
     }
 
     private async void OnMeterSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -81,5 +158,26 @@ public partial class MetersPage : ContentPage
     private async void OnNewMeterClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("newmeter");
+    }
+
+    private void OnPageButtonClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.CommandParameter is not int page)
+        {
+            return;
+        }
+
+        if (page < 1 || page > TotalPages)
+        {
+            return;
+        }
+
+        CurrentPage = page;
+        ApplyFilters(false);
     }
 }

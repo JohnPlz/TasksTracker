@@ -9,6 +9,11 @@
 
             <Label Text="Meters" Style="{StaticResource Headline}" />
 
+            <ActivityIndicator
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                HorizontalOptions="Center" />
+
             <SearchBar
                 Placeholder="Search by name or number"
                 Text="{Binding SearchText}" />
@@ -28,6 +33,23 @@
                                 <Label Text="{Binding Number}" TextColor="{StaticResource Gray500}" />
                             </VerticalStackLayout>
                         </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView
+                ItemsSource="{Binding Pages}"
+                SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Text="{Binding .}"
+                            Padding="12,6"
+                            CommandParameter="{Binding .}"
+                            Clicked="OnPageButtonClicked" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

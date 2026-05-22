@@ -10,6 +10,11 @@
             <Label Text="Meter" Style="{StaticResource Headline}" />
             <Label Text="{Binding Category}" TextColor="{StaticResource Gray500}" />
 
+            <ActivityIndicator
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                HorizontalOptions="Center" />
+
             <Entry Placeholder="Name" Text="{Binding Name}" />
             <Entry Placeholder="Number" Text="{Binding Number}" />
             <Label Text="{Binding Note}" TextColor="{StaticResource Gray500}" />

@@ -12,9 +12,21 @@ public partial class TasksPage : ContentPage
 {
     private readonly TaskRepository _repository;
     private readonly List<TaskEntry> _allTasks = new();
+    private const int PageSize = 20;
 
     public ObservableCollection<TaskListItem> TaskItems { get; } = new();
     public ObservableCollection<int> Years { get; } = new();
+    public ObservableCollection<int> Pages { get; } = new();
+
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
 
     public int? SelectedYear
     {
@@ -70,11 +82,44 @@ public partial class TasksPage : ContentPage
         }
     }
 
+    public int CurrentPage
+    {
+        get => _currentPage;
+        private set
+        {
+            if (_currentPage == value)
+            {
+                return;
+            }
+
+            _currentPage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        private set
+        {
+            if (_totalPages == value)
+            {
+                return;
+            }
+
+            _totalPages = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string _searchText = string.Empty;
     private bool _useDateFilter;
     private DateTime _filterFrom = DateTime.Today.AddDays(-30);
     private DateTime _filterTo = DateTime.Today;
     private int? _selectedYear;
+    private bool _isLoading;
+    private int _currentPage = 1;
+    private int _totalPages = 1;
 
     public TasksPage()
     {
@@ -94,11 +139,19 @@ public partial class TasksPage : ContentPage
 
     private async Task LoadTasksAsync()
     {
-        var items = await _repository.GetAllAsync();
-        _allTasks.Clear();
-        _allTasks.AddRange(items);
-        UpdateYears();
-        ApplyFilters();
+        try
+        {
+            IsLoading = true;
+            var items = await _repository.GetAllAsync();
+            _allTasks.Clear();
+            _allTasks.AddRange(items);
+            UpdateYears();
+            ApplyFilters();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private void UpdateYears()
@@ -126,7 +179,7 @@ public partial class TasksPage : ContentPage
         }
     }
 
-    private void ApplyFilters()
+    private void ApplyFilters(bool resetPage = true)
     {
         IEnumerable<TaskEntry> query = _allTasks;
 
@@ -148,7 +201,32 @@ public partial class TasksPage : ContentPage
             query = query.Where(item => item.StartTime >= from && item.StartTime <= toInclusive);
         }
 
-        BuildTaskItems(query);
+        var filtered = query.ToList();
+        UpdatePaging(filtered.Count, resetPage);
+        var paged = filtered
+            .OrderByDescending(item => item.StartTime)
+            .Skip((CurrentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+
+        BuildTaskItems(paged);
+    }
+
+    private void UpdatePaging(int totalCount, bool resetPage)
+    {
+        var pages = Math.Max(1, (int)Math.Ceiling(totalCount / (double)PageSize));
+        TotalPages = pages;
+
+        if (resetPage || CurrentPage > TotalPages)
+        {
+            CurrentPage = 1;
+        }
+
+        Pages.Clear();
+        for (var i = 1; i <= TotalPages; i++)
+        {
+            Pages.Add(i);
+        }
     }
 
     private void BuildTaskItems(IEnumerable<TaskEntry> entries)
@@ -203,7 +281,28 @@ public partial class TasksPage : ContentPage
 
         _repository.Delete(entry.Id);
         _allTasks.Remove(entry);
-        ApplyFilters();
+        ApplyFilters(false);
+    }
+
+    private void OnPageButtonClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button button)
+        {
+            return;
+        }
+
+        if (button.CommandParameter is not int page)
+        {
+            return;
+        }
+
+        if (page < 1 || page > TotalPages)
+        {
+            return;
+        }
+
+        CurrentPage = page;
+        ApplyFilters(false);
     }
 
     private async void OnExportExcelClicked(object? sender, EventArgs e)

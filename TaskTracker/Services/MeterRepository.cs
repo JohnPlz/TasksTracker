@@ -28,11 +28,21 @@ public class MeterRepository
             .ToList();
     }
 
+    public Task<IReadOnlyList<Meter>> GetAllAsync()
+    {
+        return Task.Run(GetAll);
+    }
+
     public Meter? GetById(int id)
     {
         using var db = new LiteDatabase(_dbPath);
         var collection = db.GetCollection<Meter>(CollectionName);
         return collection.FindById(id);
+    }
+
+    public Task<Meter?> GetByIdAsync(int id)
+    {
+        return Task.Run(() => GetById(id));
     }
 
     public Meter Upsert(Meter meter)

@@ -12,6 +12,16 @@ public partial class MeterDetailPage : ContentPage
 
     public ObservableCollection<Position> Positions { get; } = new();
 
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+
     public string Name
     {
         get => _name;
@@ -78,7 +88,7 @@ public partial class MeterDetailPage : ContentPage
         set
         {
             _meterId = value;
-            LoadMeter();
+            _ = LoadMeterAsync();
         }
     }
 
@@ -111,6 +121,7 @@ public partial class MeterDetailPage : ContentPage
     private string _meterId = string.Empty;
     private string _valuePlaceholder = string.Empty;
     private string _secondValuePlaceholder = string.Empty;
+    private bool _isLoading;
 
     public MeterDetailPage()
     {
@@ -122,43 +133,51 @@ public partial class MeterDetailPage : ContentPage
         BindingContext = this;
     }
 
-    private void LoadMeter()
+    private async Task LoadMeterAsync()
     {
-        Positions.Clear();
-        if (!int.TryParse(MeterId, out var id))
+        try
         {
-            return;
-        }
+            IsLoading = true;
+            Positions.Clear();
+            if (!int.TryParse(MeterId, out var id))
+            {
+                return;
+            }
 
-        _meter = _repository.GetById(id);
-        if (_meter is null)
-        {
-            return;
-        }
+            _meter = await _repository.GetByIdAsync(id);
+            if (_meter is null)
+            {
+                return;
+            }
 
-        Name = _meter.Name;
-        Number = _meter.Number;
-        Category = _meter.Category.ToString();
-        Note = _meter.Note;
+            Name = _meter.Name;
+            Number = _meter.Number;
+            Category = _meter.Category.ToString();
+            Note = _meter.Note;
 
-        foreach (var position in _meter.Positions.OrderByDescending(position => position.AddedAt))
-        {
-            Positions.Add(position);
+            foreach (var position in _meter.Positions.OrderByDescending(position => position.AddedAt))
+            {
+                Positions.Add(position);
+            }
+            ValuePlaceholder = _meter.Category switch
+            {
+                Models.Enums.MeterCategory.Electricity => "kWh",
+                Models.Enums.MeterCategory.Gas => "m³",
+                Models.Enums.MeterCategory.Water => "m³",
+                _ => "Enter value"
+            };
+            SecondValuePlaceholder = _meter.Category switch
+            {
+                Models.Enums.MeterCategory.Electricity => "kWh (2)",
+                Models.Enums.MeterCategory.Gas => "m³ (2)",
+                Models.Enums.MeterCategory.Water => "m³ (2)",
+                _ => "Second value"
+            };
         }
-        ValuePlaceholder = _meter.Category switch
+        finally
         {
-            Models.Enums.MeterCategory.Electricity => "kWh",
-            Models.Enums.MeterCategory.Gas => "m³",
-            Models.Enums.MeterCategory.Water => "m³",
-            _ => "Enter value"
-        };
-        SecondValuePlaceholder = _meter.Category switch
-        {
-            Models.Enums.MeterCategory.Electricity => "kWh (2)",
-            Models.Enums.MeterCategory.Gas => "m³ (2)",
-            Models.Enums.MeterCategory.Water => "m³ (2)",
-            _ => "Second value"
-        };
+            IsLoading = false;
+        }
     }
 
     private void OnSaveMeterClicked(object? sender, EventArgs e)

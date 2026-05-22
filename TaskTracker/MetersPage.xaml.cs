@@ -7,8 +7,22 @@ namespace TaskTracker;
 public partial class MetersPage : ContentPage
 {
     private readonly MeterRepository _repository;
+    private readonly List<Meter> _allMeters = new();
 
     public ObservableCollection<Meter> Meters { get; } = new();
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            OnPropertyChanged();
+            ApplyFilters();
+        }
+    }
+
+    private string _searchText = string.Empty;
 
     public MetersPage()
     {
@@ -28,8 +42,25 @@ public partial class MetersPage : ContentPage
 
     private void LoadMeters()
     {
+        _allMeters.Clear();
+        _allMeters.AddRange(_repository.GetAll());
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        IEnumerable<Meter> query = _allMeters;
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            var term = SearchText.Trim();
+            query = query.Where(meter =>
+                meter.Name.Contains(term, StringComparison.OrdinalIgnoreCase)
+                || meter.Number.Contains(term, StringComparison.OrdinalIgnoreCase));
+        }
+
         Meters.Clear();
-        foreach (var meter in _repository.GetAll())
+        foreach (var meter in query.OrderBy(meter => meter.Number).ThenBy(meter => meter.Name))
         {
             Meters.Add(meter);
         }

@@ -9,6 +9,10 @@
 
             <Label Text="Meters" Style="{StaticResource Headline}" />
 
+            <SearchBar
+                Placeholder="Search by name or number"
+                Text="{Binding SearchText}" />
+
             <Button Text="New Meter" Clicked="OnNewMeterClicked" />
 
             <CollectionView ItemsSource="{Binding Meters}"

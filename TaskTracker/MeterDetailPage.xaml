@@ -28,11 +28,11 @@
 
             <HorizontalStackLayout Spacing="12">
                 <Entry Placeholder="{Binding ValuePlaceholder}"
-                    WidthRequest="200"
+                    WidthRequest="150"
                     Keyboard="Numeric"
                     Text="{Binding NewPositionValue}" />
                 <Entry Placeholder="{Binding SecondValuePlaceholder}"
-                    WidthRequest="200"
+                    WidthRequest="150"
                     Keyboard="Numeric"
                     Text="{Binding NewSecondPositionValue}" />
                 <Button Text="Add" Clicked="OnAddPositionClicked" />

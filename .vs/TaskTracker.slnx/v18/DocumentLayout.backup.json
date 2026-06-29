@@ -70,8 +70,7 @@
               "RelativeToolTip": "TaskTracker\\Resources\\Styles\\Colors.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-02-04T22:15:26.588Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-04T22:15:26.588Z"
             },
             {
               "$type": "Document",
@@ -96,8 +95,7 @@
               "RelativeToolTip": "TaskTracker\\MainPage.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-02-03T20:39:47.058Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-03T20:39:47.058Z"
             },
             {
               "$type": "Document",
@@ -109,8 +107,7 @@
               "RelativeToolTip": "TaskTracker\\MainPage.xaml.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAuwKUAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T20:48:20.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-02T20:48:20.951Z"
             }
           ]
         }

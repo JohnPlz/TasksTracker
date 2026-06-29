@@ -26,7 +26,7 @@
 
             <Label Text="Positions" Style="{StaticResource SubHeadline}" />
 
-            <HorizontalStackLayout Spacing="12">
+            <HorizontalStackLayout Spacing="0">
                 <Entry Placeholder="{Binding ValuePlaceholder}"
                     WidthRequest="150"
                     Keyboard="Numeric"

@@ -70,7 +70,8 @@
               "RelativeToolTip": "TaskTracker\\Resources\\Styles\\Colors.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-02-04T22:15:26.588Z"
+              "WhenOpened": "2026-02-04T22:15:26.588Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -80,7 +81,7 @@
               "RelativeDocumentMoniker": "TaskTracker\\TasksPage.xaml",
               "ToolTip": "C:\\repos\\TasksTracker\\TaskTracker\\TasksPage.xaml",
               "RelativeToolTip": "TaskTracker\\TasksPage.xaml",
-              "ViewState": "AgIAADMAAAAAAAAAAAAQwE4AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAQwE4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-04T17:18:33.017Z",
               "EditorCaption": ""

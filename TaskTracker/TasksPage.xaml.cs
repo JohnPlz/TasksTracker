@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using ClosedXML.Excel;
+using System.Text;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
 using TaskTracker.Models;
@@ -305,7 +305,7 @@ public partial class TasksPage : ContentPage
         ApplyFilters(false);
     }
 
-    private async void OnExportExcelClicked(object? sender, EventArgs e)
+    private async void OnExportCsvClicked(object? sender, EventArgs e)
     {
         if (SelectedYear is null)
         {
@@ -327,46 +327,34 @@ public partial class TasksPage : ContentPage
 
         try
         {
-            using var workbook = new XLWorkbook();
-            var worksheet = workbook.AddWorksheet("Aufgaben");
-            var row = 1;
-            worksheet.Cell(row, 1).Value = "Datum";
-            worksheet.Cell(row, 2).Value = "Beschreibung";
-            worksheet.Cell(row, 3).Value = "Dauer (Stunden)";
-            worksheet.Row(row).Style.Font.Bold = true;
-            row++;
+            var builder = new StringBuilder();
+            builder.AppendLine("ID;Titel;Beschreibung;Standort;Typ;Kategorie;Dauer_Minuten;Status;Datum");
 
-            var culture = CultureInfo.GetCultureInfo("de-DE");
-            foreach (var monthGroup in yearTasks.GroupBy(item => item.StartTime.Month))
+            var exportId = 50;
+            foreach (var entry in yearTasks)
             {
-                foreach (var entry in monthGroup)
+                var fields = new[]
                 {
-                    worksheet.Cell(row, 1).Value = entry.StartTime.Date;
-                    worksheet.Cell(row, 1).Style.DateFormat.Format = "dd.MM.yyyy";
-                    worksheet.Cell(row, 2).Value = entry.Description;
-                    worksheet.Cell(row, 3).Value = Math.Round(entry.DurationMinutes / 60d, 2);
-                    worksheet.Cell(row, 3).Style.NumberFormat.Format = "0.00";
-                    row++;
-                }
+                    exportId.ToString(CultureInfo.InvariantCulture),
+                    EscapeCsvField(entry.Description),
+                    string.Empty,
+                    string.Empty,
+                    "Wohnung",
+                    "Sonstiges",
+                    entry.DurationMinutes.ToString("0.##", CultureInfo.InvariantCulture),
+                    "ERLEDIGT",
+                    entry.StartTime.ToString("dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture)
+                };
 
-                var monthHours = monthGroup.Sum(item => item.DurationMinutes) / 60d;
-                worksheet.Cell(row, 2).Value = $"Summe {culture.DateTimeFormat.GetMonthName(monthGroup.Key)}";
-                worksheet.Cell(row, 3).Value = Math.Round(monthHours, 2);
-                worksheet.Cell(row, 3).Style.NumberFormat.Format = "0.00";
-                worksheet.Row(row).Style.Font.Bold = true;
-                row++;
+                builder.AppendLine(string.Join(';', fields));
+                exportId++;
             }
 
-            worksheet.Columns().AdjustToContents();
-
-            await using var stream = new MemoryStream();
-            workbook.SaveAs(stream);
-            stream.Position = 0;
-
-            var result = await FileSaver.Default.SaveAsync($"tasks-{year}.xlsx", stream, CancellationToken.None);
+            await using var stream = new MemoryStream(Encoding.UTF8.GetBytes(builder.ToString()));
+            var result = await FileSaver.Default.SaveAsync($"tasks-{year}.csv", stream, CancellationToken.None);
             if (result.IsSuccessful)
             {
-                await Toast.Make("Excel export saved").Show();
+                await Toast.Make("CSV export saved").Show();
             }
             else
             {
@@ -377,6 +365,22 @@ public partial class TasksPage : ContentPage
         {
             await Toast.Make($"Export failed: {ex.Message}").Show();
         }
+    }
+
+    private static string EscapeCsvField(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return string.Empty;
+        }
+
+        var escaped = value.Replace("\"", "\"\"");
+        if (escaped.Contains(';') || escaped.Contains('"') || escaped.Contains('\n') || escaped.Contains('\r'))
+        {
+            return $"\"{escaped}\"";
+        }
+
+        return escaped;
     }
 
 }
